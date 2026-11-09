@@ -23,19 +23,16 @@ function isRegisterField(field: string): field is (typeof FIELDS)[number] {
 const ROLE_OPTIONS: {
   value: SelfRegisterRole;
   title: string;
-  description: string;
   icon: IconName;
 }[] = [
   {
     value: "TENANT",
     title: "Chiriaș",
-    description: "Caut o locuință și pot publica o cerere.",
     icon: "search",
   },
   {
     value: "LANDLORD",
     title: "Proprietar",
-    description: "Am de închiriat și vreau să public anunțuri.",
     icon: "home",
   },
 ];
@@ -103,7 +100,6 @@ export function RegisterForm() {
                 </span>
                 <span className={styles.roleLabels}>
                   <span className={styles.roleTitle}>{option.title}</span>
-                  <span className={styles.roleText}>{option.description}</span>
                 </span>
               </span>
             </label>

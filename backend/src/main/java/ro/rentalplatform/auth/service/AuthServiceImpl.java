@@ -7,7 +7,9 @@ import ro.rentalplatform.auth.dto.AuthResponse;
 import ro.rentalplatform.auth.dto.LoginRequest;
 import ro.rentalplatform.auth.dto.RegisterRequest;
 import ro.rentalplatform.common.exception.BadCredentialsAppException;
+import ro.rentalplatform.common.exception.BadRequestException;
 import ro.rentalplatform.common.exception.ConflictException;
+import ro.rentalplatform.common.exception.FieldErrorDto;
 import ro.rentalplatform.security.JwtService;
 import ro.rentalplatform.security.UserPrincipal;
 import ro.rentalplatform.user.domain.Role;
@@ -16,6 +18,8 @@ import ro.rentalplatform.user.domain.UserStatus;
 import ro.rentalplatform.user.dto.UserDto;
 import ro.rentalplatform.user.mapper.UserMapper;
 import ro.rentalplatform.user.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -37,18 +41,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public AuthResponse register(RegisterRequest request) {
+    public UserDto register(RegisterRequest request) {
+        Role role = parseSelfRegisterRole(request.role());
         String normalizedEmail = request.email().trim().toLowerCase();
 
         if (userRepository.existsByEmail(normalizedEmail)) {
             throw new ConflictException("Există deja un cont cu acest email.");
-        }
-
-        Role role;
-        try {
-            role = Role.valueOf(request.role().trim().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new ConflictException("Rolul nu este valid.");
         }
 
         User user = User.builder()
@@ -63,11 +61,28 @@ public class AuthServiceImpl implements AuthService {
                 .status(UserStatus.ACTIVE)
                 .build();
 
-        User saved = userRepository.save(user);
-        UserDto dto = userMapper.toDto(saved);
-        String token = jwtService.generateToken(new UserPrincipal(saved.getId(), saved.getEmail(), saved.getRole().name()));
+        return userMapper.toDto(userRepository.save(user));
+    }
 
-        return new AuthResponse(token, dto);
+    /** La înregistrare se pot alege doar TENANT și LANDLORD; ADMIN și rolurile necunoscute dau 400 (AUTH-04). */
+    private Role parseSelfRegisterRole(String value) {
+        Role role;
+        try {
+            role = Role.valueOf(value.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw invalidRole("Rolul nu este valid.");
+        }
+
+        if (role == Role.ADMIN) {
+            throw invalidRole("Rolul ADMIN nu poate fi ales la înregistrare.");
+        }
+        return role;
+    }
+
+    private static BadRequestException invalidRole(String message) {
+        return new BadRequestException(
+                "Datele trimise nu sunt valide.",
+                List.of(new FieldErrorDto("role", message)));
     }
 
     @Override
