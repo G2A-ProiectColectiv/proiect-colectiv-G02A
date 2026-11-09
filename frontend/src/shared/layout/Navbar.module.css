@@ -1,0 +1,356 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  max-width: 1240px;
+  min-height: 72px;
+  margin: 0 auto;
+  padding: var(--space-2) var(--space-5);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--size-touch);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.brandName {
+  font: 800 24px / 1 var(--font-sans);
+  letter-spacing: -0.02em;
+}
+
+.brandDot {
+  color: var(--color-primary);
+}
+
+/* Butonul cu 3 linii există doar pe telefon. */
+.menuButton {
+  display: none;
+}
+
+/* Desktop: meniul și acțiunile stau pe același rând cu brandul. */
+.menu {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+
+.menuInner {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.nav {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-control);
+  color: var(--color-ink-2);
+  font: 500 15px / 1 var(--font-sans);
+  text-decoration: none;
+}
+
+.navLink:hover {
+  background: var(--color-background);
+}
+
+.active {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+}
+
+.textAction,
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--size-touch);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-control);
+  font: 700 16px / 1 var(--font-sans);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.textAction {
+  color: var(--color-primary-dark);
+}
+
+.textAction:hover {
+  background: var(--color-primary-light);
+}
+
+.primaryAction {
+  min-height: 46px;
+  padding: 0 var(--space-5);
+  background: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.primaryAction:hover {
+  background: var(--color-primary-dark);
+}
+
+.profile {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-touch);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-control);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.profile:hover {
+  background: var(--color-background);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-light);
+  color: var(--color-ink);
+  font: 800 12px / 1 var(--font-sans);
+}
+
+.userName {
+  max-width: 140px;
+  overflow: hidden;
+  color: var(--color-ink);
+  font: var(--text-small);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*
+ * Telefon (≤720px): rămân brandul și butonul cu 3 linii. Linkurile și butoanele
+ * stau într-un panou sub header, care se deschide și se închide la apăsare.
+ */
+@media (max-width: 720px) {
+  .inner {
+    min-height: 64px;
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .brandName {
+    font-size: 21px;
+  }
+
+  .logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+  }
+
+  .menuButton {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: var(--size-touch);
+    height: var(--size-touch);
+    margin-left: auto;
+    padding: 0;
+    border: 1.5px solid var(--color-line);
+    border-radius: var(--radius-control);
+    background: var(--color-surface);
+    color: var(--color-ink);
+    cursor: pointer;
+    transition:
+      background-color 0.15s,
+      border-color 0.15s;
+  }
+
+  .menuButton:hover,
+  .menuButton[aria-expanded="true"] {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
+
+  /* Cele 3 linii se transformă într-un X când meniul e deschis. */
+  .bars {
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 14px;
+  }
+
+  .bar {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: currentcolor;
+    transition:
+      transform 0.2s,
+      opacity 0.2s,
+      top 0.2s;
+  }
+
+  .bar:nth-child(1) {
+    top: 0;
+  }
+
+  .bar:nth-child(2) {
+    top: 6px;
+  }
+
+  .bar:nth-child(3) {
+    top: 12px;
+  }
+
+  .menuButton[aria-expanded="true"] .bar:nth-child(1) {
+    top: 6px;
+    transform: rotate(45deg);
+  }
+
+  .menuButton[aria-expanded="true"] .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menuButton[aria-expanded="true"] .bar:nth-child(3) {
+    top: 6px;
+    transform: rotate(-45deg);
+  }
+
+  /* Panoul: lipit sub header, cu înălțimea animată de la 0 la conținut. */
+  .menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: grid;
+    grid-template-rows: 0fr;
+    border-bottom: 1px solid transparent;
+    background: var(--color-surface);
+    visibility: hidden;
+    transition:
+      grid-template-rows 0.25s ease,
+      visibility 0s linear 0.25s;
+  }
+
+  .open {
+    grid-template-rows: 1fr;
+    border-bottom-color: var(--color-line);
+    box-shadow: 0 16px 24px rgb(16 34 43 / 10%);
+    visibility: visible;
+    transition:
+      grid-template-rows 0.25s ease,
+      visibility 0s;
+  }
+
+  .menuInner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+    min-height: 0;
+    overflow: hidden;
+    padding: 0 var(--space-4);
+  }
+
+  .nav {
+    flex: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+    padding-top: var(--space-3);
+  }
+
+  .navLink {
+    justify-content: center;
+    min-height: var(--size-control);
+    padding: 0 var(--space-4);
+    font-size: 16px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+    margin-left: 0;
+    padding: var(--space-3) 0 var(--space-4);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .textAction,
+  .primaryAction {
+    min-height: var(--size-control);
+    font-size: 16px;
+  }
+
+  .textAction {
+    background: var(--color-primary-light);
+  }
+
+  .profile {
+    justify-content: center;
+    gap: var(--space-3);
+    min-height: var(--size-control);
+    padding: 0 var(--space-2);
+  }
+
+  .userName {
+    max-width: none;
+    font-size: 16px;
+  }
+
+  .actions .logout {
+    width: 100%;
+    min-height: var(--size-control);
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu,
+  .open,
+  .bar {
+    transition: none;
+  }
+}

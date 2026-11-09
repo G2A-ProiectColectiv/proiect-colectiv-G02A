@@ -1,0 +1,40 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.labelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.label {
+  font: var(--text-small);
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.required {
+  color: var(--color-error);
+}
+
+.hint,
+.error {
+  margin: 0;
+  font: var(--text-small);
+}
+
+.hint {
+  color: var(--color-text-secondary);
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-error);
+}
