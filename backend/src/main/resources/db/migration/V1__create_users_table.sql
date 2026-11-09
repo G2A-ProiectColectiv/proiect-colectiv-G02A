@@ -1,0 +1,16 @@
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(30),
+    avatar_url VARCHAR(500),
+    bio TEXT,
+    role VARCHAR(32) NOT NULL CHECK (role IN ('TENANT', 'LANDLORD', 'ADMIN')),
+    status VARCHAR(32) NOT NULL CHECK (status IN ('ACTIVE', 'BLOCKED', 'DELETED')),
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE UNIQUE INDEX uk_users_lower_email ON users (LOWER(email));
