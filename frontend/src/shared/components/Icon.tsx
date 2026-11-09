@@ -2,10 +2,17 @@ import type { ReactNode } from "react";
 import styles from "./Icon.module.css";
 
 export type IconName =
-  "home" | "search" | "pin" | "check" | "alert" | "sliders" | "user" | "arrow-right";
+  "home" | "key" | "search" | "pin" | "check" | "alert" | "sliders" | "user" | "arrow-right";
 
 const SHAPES: Record<IconName, ReactNode> = {
   home: <path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />,
+  // Aceeași cheie ca în favicon (src/app/icon.svg), în diagonală.
+  key: (
+    <g transform="rotate(-45 12 12)">
+      <circle cx="7.9" cy="12" r="3" />
+      <path d="M10.9 12h8.2M16.1 12v3M18.8 12v2.6" />
+    </g>
+  ),
   search: (
     <>
       <circle cx="11" cy="11" r="7" />

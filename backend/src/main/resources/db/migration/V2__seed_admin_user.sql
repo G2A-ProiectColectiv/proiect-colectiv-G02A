@@ -13,7 +13,7 @@ INSERT INTO users (
 )
 VALUES (
     'admin@rental.local',
-    '$2b$10$Ap8iywzKPbsVM9RqZF18luyuWVzbcq5jGfKGzV9GZkVKcG.Wy4crK',
+    '$2a$10$KlDGP5sdPXw5dzbK0r9DtuiuEDuh.hyD/CS.ERPuy42XLyzMxAvVa',
     'System',
     'Administrator',
     NULL,

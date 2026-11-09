@@ -180,3 +180,19 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Sub 450px lățime: cardurile Chiriaș și Proprietar stau unul sub altul, cu descrierea vizibilă
+   (trebuie să rămână după media de înălțime de mai sus, ca să o suprascrie). */
+@media (max-width: 449px) {
+  .roleOptions {
+    flex-direction: column;
+  }
+
+  .roleOption {
+    flex: none;
+  }
+
+  .roleText {
+    display: block;
+  }
+}

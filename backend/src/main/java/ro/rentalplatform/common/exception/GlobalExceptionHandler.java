@@ -26,6 +26,13 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, "Datele trimise nu sunt valide.", request, fieldErrors);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ApiError> handleBadRequest(BadRequestException ex,
+                                                     HttpServletRequest request) {
+        List<FieldErrorDto> fieldErrors = ex.getFieldErrors().isEmpty() ? null : ex.getFieldErrors();
+        return build(HttpStatus.BAD_REQUEST, ex.getMessage(), request, fieldErrors);
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiError> handleUnreadable(HttpMessageNotReadableException ex,
                                                      HttpServletRequest request) {

@@ -88,7 +88,7 @@ export function Navbar() {
       <div className={styles.inner}>
         <Link href="/" className={styles.brand}>
           <span className={styles.logo}>
-            <Icon name="home" size={20} />
+            <Icon name="key" size={30} />
           </span>
           <span className={styles.brandName}>
             KeySwap<span className={styles.brandDot}>.</span>

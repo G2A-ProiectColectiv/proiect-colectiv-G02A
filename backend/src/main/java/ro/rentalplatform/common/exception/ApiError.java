@@ -1,8 +1,12 @@
 package ro.rentalplatform.common.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.Instant;
 import java.util.List;
 
+/** Formatul unic de eroare al API-ului; {@code fieldErrors} apare doar la erorile de validare. */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record ApiError(
         int status,
         String message,
