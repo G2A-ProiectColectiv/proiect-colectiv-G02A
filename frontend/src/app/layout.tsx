@@ -1,29 +1,28 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
+import { Navbar } from "@/shared/layout/Navbar";
+import { Providers } from "./providers";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta-sans",
+  subsets: ["latin", "latin-ext"],
 });
 
 export const metadata: Metadata = {
-  title: "Key Swap",
+  title: { default: "Key Swap", template: "%s · Key Swap" },
   description: "Platformă de închiriere de proprietăți",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="ro"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="ro" className={plusJakartaSans.variable}>
+      <body>
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }

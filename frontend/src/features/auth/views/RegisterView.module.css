@@ -1,0 +1,108 @@
+.page {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.formSide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+}
+
+.card {
+  width: 100%;
+  max-width: 540px;
+}
+
+.title {
+  margin: 0 0 var(--space-2);
+  font: 800 36px / 1.15 var(--font-sans);
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  margin: 0 0 var(--space-4);
+  color: var(--color-text-secondary);
+  font-size: 16px;
+}
+
+/* Panoul verde, cu linii fine care amintesc de o hartă. */
+.panel {
+  display: flex;
+  align-items: center;
+  padding: var(--space-7);
+  background-color: var(--color-primary);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000' preserveAspectRatio='none' fill='none' stroke='white' stroke-opacity='0.16' stroke-width='2'><path vector-effect='non-scaling-stroke' d='M200 0V1000M500 0V1000M800 0V1000'/><path vector-effect='non-scaling-stroke' d='M0 300C250 240 400 380 620 330S900 200 1000 240'/><path vector-effect='non-scaling-stroke' d='M0 700C250 640 450 780 650 730S900 640 1000 680'/></svg>");
+  background-size: 100% 100%;
+  color: var(--color-surface);
+}
+
+.panelContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  width: 100%;
+  max-width: 560px;
+}
+
+.panelTitle {
+  margin: 0;
+  font: 800 38px / 1.2 var(--font-sans);
+  letter-spacing: -0.02em;
+}
+
+.roles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.role {
+  padding: var(--space-5);
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: var(--radius-dialog);
+  background: rgb(255 255 255 / 10%);
+}
+
+.roleTitle {
+  margin: 0 0 var(--space-2);
+  font: var(--text-h3);
+}
+
+.roleText {
+  margin: 0;
+  color: rgb(255 255 255 / 88%);
+}
+
+/* Ecrane joase (laptopuri): formularul trebuie să încapă fără derulare. */
+@media (max-height: 780px) {
+  .formSide {
+    padding-block: var(--space-4);
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .lead {
+    margin-bottom: var(--space-3);
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 880px) {
+  .page {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panel {
+    display: none;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+}

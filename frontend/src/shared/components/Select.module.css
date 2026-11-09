@@ -1,0 +1,45 @@
+.select {
+  width: 100%;
+  min-height: var(--size-control);
+  padding: 0 var(--space-6) 0 var(--space-4);
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-control);
+  background-color: var(--color-surface);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%235b6b73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 6l5 5 5-5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  color: var(--color-ink);
+  font: var(--text-body);
+  appearance: none;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.select:hover:not(:disabled) {
+  border-color: var(--color-text-secondary);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.invalid,
+.invalid:hover:not(:disabled) {
+  border-color: var(--color-error);
+  background-color: color-mix(in srgb, var(--color-error) 9%, var(--color-surface));
+}
+
+.invalid:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 15%, transparent);
+}
+
+.select:disabled {
+  background-color: var(--color-background);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
