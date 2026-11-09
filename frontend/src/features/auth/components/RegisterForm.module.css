@@ -1,0 +1,182 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--color-error) 12%, var(--color-surface));
+  color: var(--color-error);
+  font: var(--text-small);
+  font-weight: 700;
+}
+
+.roles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.legend {
+  padding: 0;
+  margin-bottom: var(--space-2);
+  font: var(--text-small);
+  font-weight: 700;
+}
+
+.roleOptions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.roleOption {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+}
+
+/* Radio-ul real rămâne în pagină (accesibil, focusabil), doar ascuns vizual. */
+.roleInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.roleCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3);
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.roleOption:hover .roleCard {
+  border-color: var(--color-text-secondary);
+}
+
+.roleInput:checked + .roleCard {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.roleInput:focus-visible + .roleCard {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.radio {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--color-text-secondary);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+}
+
+.roleInput:checked + .roleCard .radio {
+  border: 6px solid var(--color-primary);
+}
+
+.roleIcon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-control);
+  background: var(--color-background);
+  color: var(--color-ink-2);
+}
+
+.roleInput:checked + .roleCard .roleIcon {
+  background: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.roleLabels {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.roleTitle {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.roleText {
+  color: var(--color-text-secondary);
+  font: var(--text-small);
+}
+
+.roleError {
+  margin: 0;
+  color: var(--color-error);
+  font: var(--text-small);
+}
+
+.nameRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.footer {
+  margin: var(--space-2) 0 0;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font: var(--text-small);
+}
+
+.link {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Ecrane joase: câmpuri și butoane puțin mai joase (--size-control e folosit și de Input/Button). */
+@media (max-height: 780px) {
+  .form {
+    --size-control: 44px;
+
+    gap: var(--space-3);
+  }
+
+  .roleOptions {
+    flex-direction: row;
+  }
+
+  .roleOption {
+    flex: 1;
+  }
+
+  .roleText {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .nameRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

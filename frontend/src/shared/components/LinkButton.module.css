@@ -1,0 +1,51 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--size-control);
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-control);
+  font: 700 16px / 1.2 var(--font-sans);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+
+.primary {
+  background: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.accent {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+.accent:hover {
+  background: color-mix(in srgb, var(--color-accent) 85%, white);
+}
+
+.text {
+  padding: 0 var(--space-3);
+  color: var(--color-primary);
+}
+
+.text:hover {
+  background: var(--color-primary-light);
+}
+
+.textOnDark {
+  padding: 0 var(--space-3);
+  color: var(--color-surface);
+}
+
+.textOnDark:hover {
+  background: rgb(255 255 255 / 12%);
+}

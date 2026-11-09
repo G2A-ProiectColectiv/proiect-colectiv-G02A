@@ -1,0 +1,111 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    box-shadow 0.15s,
+    transform 0.15s;
+}
+
+.card:hover {
+  box-shadow: 0 10px 28px rgb(16 34 43 / 10%);
+  transform: translateY(-2px);
+}
+
+.photo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 196px;
+}
+
+.green {
+  background: linear-gradient(135deg, #d9ece6, #cde3dc);
+  color: #7fa59c;
+}
+
+.yellow {
+  background: linear-gradient(135deg, #f7eecb, #f1e1b0);
+  color: #b59a4a;
+}
+
+.blue {
+  background: linear-gradient(135deg, #dfe6f3, #d1daed);
+  color: #8190b8;
+}
+
+.pink {
+  background: linear-gradient(135deg, #f5dfda, #eccdc7);
+  color: #b98077;
+}
+
+.placeholder {
+  opacity: 0.85;
+}
+
+.badge {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  font: 600 12px / 1 var(--font-sans);
+}
+
+.available {
+  background: rgb(255 255 255 / 75%);
+  color: var(--color-success);
+}
+
+.soon {
+  background: var(--color-accent-light);
+  color: #7a5a00;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+}
+
+.price {
+  font: var(--text-price);
+  letter-spacing: -0.01em;
+}
+
+.perMonth {
+  color: var(--color-text-secondary);
+  font: var(--text-small);
+}
+
+.title {
+  font: 700 16px / 1.35 var(--font-sans);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  color: var(--color-ink-2);
+  font: var(--text-small);
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-text-secondary);
+  font: var(--text-small);
+}
