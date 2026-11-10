@@ -4,10 +4,11 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/features/auth/context/AuthContext";
-import type { Role, User } from "@/features/auth/types";
+import type { Role } from "@/features/auth/types";
 import { Button } from "@/shared/components/Button";
 import { Icon } from "@/shared/components/Icon";
 import styles from "./Navbar.module.css";
+import { Avatar } from "@/shared/components/Avatar";
 
 interface NavLink {
   href: string;
@@ -32,13 +33,6 @@ const LINKS_BY_ROLE: Record<Role, NavLink[]> = {
 };
 
 const MENU_ID = "site-menu";
-
-function initialsOf(user: User): string {
-  const first = user.firstName.trim();
-  const last = user.lastName.trim();
-  const letters = last ? `${first[0] ?? ""}${last[0]}` : first.slice(0, 2);
-  return letters.toUpperCase() || "?";
-}
 
 function isLinkActive(link: NavLink, pathname: string): boolean {
   return pathname === link.href || pathname.startsWith(`${link.href}/`);
@@ -152,18 +146,21 @@ export function Navbar() {
                     </Link>
                   )}
 
-                  {user.role === "ADMIN" ? (
-                    <span className={styles.userName}>Administrator</span>
-                  ) : (
-                    <Link href="/profile" className={styles.profile}>
-                      <span className={styles.avatar} aria-hidden="true">
-                        {initialsOf(user)}
-                      </span>
-                      <span className={styles.userName}>{user.firstName}</span>
-                    </Link>
-                  )}
 
-                  <Button variant="text" size="sm" className={styles.logout} onClick={logout}>
+                  <Link href="/profile" className={styles.profile}>
+                    <Avatar
+                      firstName={user.firstName}
+                      lastName={user.lastName}
+                      avatarUrl={user.avatarUrl}
+                      size="sm"
+                    />
+                    <span className={styles.userName}>
+                      {user.role === "ADMIN" ? "Administrator" : user.firstName}
+                    </span>
+                  </Link>
+
+
+                  <Button variant="text" size="sm" className={styles.logout} onClick={() => logout()}>
                     Deconectare
                   </Button>
                 </>

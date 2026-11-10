@@ -1,0 +1,42 @@
+.avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--color-accent-light);
+  color: var(--color-ink);
+  font-weight: 800;
+}
+
+.sm {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+}
+
+.lg {
+  width: 112px;
+  height: 112px;
+  font-size: 36px;
+}
+
+.image {
+  object-fit: cover;
+}
+
+@media (max-width: 480px) {
+  .lg {
+    width: 88px;
+    height: 88px;
+    font-size: 28px;
+  }
+}
+
+@media (min-width: 350px) and (max-width: 380px) {
+  .sm {
+    width: 36px;
+    height: 36px;
+  }
+}
