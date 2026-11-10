@@ -146,18 +146,6 @@
   background: var(--color-background);
 }
 
-.avatar {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-pill);
-  background: var(--color-accent-light);
-  color: var(--color-ink);
-  font: 800 12px / 1 var(--font-sans);
-}
-
 .userName {
   max-width: 140px;
   overflow: hidden;

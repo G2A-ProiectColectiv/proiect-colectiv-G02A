@@ -116,8 +116,10 @@ export interface AuthContextValue {
   isReady: boolean;
   /** Salvează sesiunea primită de la `POST /api/auth/login`. */
   signIn: (auth: AuthResponse) => void;
-  /** Șterge sesiunea și cache-ul, apoi duce la `/login`. */
-  logout: () => void;
+  /** Sterge sesiunea si cache-ul, apoi redirectioneaza utilizatorul catre pagina specificata sau /login. */
+  logout: (redirectTo?: string) => void;
+  /** Actualizează datele utilizatorului autentificat în aplicație. */
+  updateUser: (updatedUser: User) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -143,7 +145,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     notify();
   }, []);
 
-  const logout = useCallback(() => {
+  // Actualizeaza datele utilizatorului si notifica componentele.
+  const updateUser = useCallback((updatedUser: User) => {
+    try {
+      localStorage.setItem(
+        USER_STORAGE_KEY,
+        JSON.stringify(updatedUser)
+      );
+    } catch {
+      // Datele nu au putut fi salvate local.
+    }
+
+    notify();
+  }, []);
+
+  const logout = useCallback((redirectTo = "/login") => {
     clearToken();
     try {
       localStorage.removeItem(USER_STORAGE_KEY);
@@ -152,10 +168,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     notify();
     queryClient.clear();
-    router.replace("/login");
+    router.replace(redirectTo);
   }, [queryClient, router]);
 
-  const value = useMemo(() => ({ user, isReady, signIn, logout }), [user, isReady, signIn, logout]);
+  const value = useMemo(() => ({ user, isReady, signIn, logout, updateUser }), [user, isReady, signIn, logout, updateUser ]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
