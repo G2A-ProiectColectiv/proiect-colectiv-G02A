@@ -4,6 +4,8 @@ import { HeroSearch } from "../components/HeroSearch";
 import { ListingCardPreview, type ListingCardPreviewProps } from "../components/ListingCardPreview";
 import { MapPreview } from "../components/MapPreview";
 import styles from "./HomeView.module.css";
+import { AccountDeletedMessage } from "@/features/profile/components/AccountDeletedMessage";
+import { Suspense } from "react";
 
 const PERKS = ["Căutare fără cont", "Locație pe hartă", "Contact direct"];
 
@@ -61,6 +63,9 @@ const SAMPLE_LISTINGS: ListingCardPreviewProps[] = [
 export function HomeView() {
   return (
     <main className={styles.page}>
+      <Suspense fallback={null}>
+        <AccountDeletedMessage />
+      </Suspense>
       <section className={styles.hero}>
         <div className={styles.heroText}>
           <h1 className={styles.title}>

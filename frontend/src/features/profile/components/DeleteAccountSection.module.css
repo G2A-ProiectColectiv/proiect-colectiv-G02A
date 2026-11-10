@@ -1,0 +1,95 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid #fecaca;
+  border-radius: 16px;
+  background: var(--color-surface, #fff);
+}
+
+.title {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.description {
+  margin: 0;
+  color: var(--color-text-secondary, #64748b);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: #172b36;
+  font: inherit;
+}
+
+.input:focus {
+  outline: 2px solid #dc2626;
+  outline-offset: 1px;
+}
+
+.deleteButton {
+  min-height: 46px;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 8px;
+  background: #dc2626;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.deleteButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  color: #dc2626;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 20px;
+  }
+
+  .deleteButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .card {
+    padding: 16px;
+  }
+}
