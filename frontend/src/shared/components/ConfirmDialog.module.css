@@ -1,0 +1,50 @@
+.dialog {
+  width: calc(100% - 2 * var(--space-4));
+  max-width: 440px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-dialog);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-popover);
+}
+
+.dialog::backdrop {
+  background: rgb(16 34 43 / 48%);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.title {
+  margin: 0;
+  font: var(--text-h3);
+}
+
+.message {
+  margin: 0;
+  color: var(--color-ink-2);
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+@media (max-width: 480px) {
+  .body {
+    padding: var(--space-5);
+  }
+
+  .actions > * {
+    flex: 1 1 100%;
+  }
+}
