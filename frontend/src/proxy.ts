@@ -22,7 +22,7 @@ interface ProtectedRoute {
 /** Singurul loc cu rutele protejate; se completează în etapele următoare. */
 const protectedRoutes: ProtectedRoute[] = [
   { prefix: "/profile", roles: ["TENANT", "LANDLORD", "ADMIN"] },
-  // { prefix: "/my-listings", roles: ["LANDLORD"] },                  ← etapa 1.3
+  { prefix: "/my-listings", roles: ["LANDLORD"] },
 ];
 
 /** Paginile pe care un utilizator deja autentificat nu are ce căuta. */

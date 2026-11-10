@@ -1,0 +1,26 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  font: var(--text-small);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.ACTIVE {
+  background: color-mix(in srgb, var(--color-success) 14%, var(--color-surface));
+  color: var(--color-success);
+}
+
+.RENTED {
+  background: var(--color-accent-light);
+  color: var(--color-ink);
+}
+
+.UNAVAILABLE,
+.DELETED {
+  background: var(--color-line);
+  color: var(--color-ink-2);
+}

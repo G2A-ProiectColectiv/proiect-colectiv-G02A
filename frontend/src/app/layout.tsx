@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { Navbar } from "@/shared/layout/Navbar";
 import { Providers } from "./providers";
@@ -19,7 +20,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="ro" className={plusJakartaSans.variable}>
       <body>
         <Providers>
-          <Navbar />
+          <Suspense fallback={null}>
+            <Navbar />
+          </Suspense>
           {children}
         </Providers>
       </body>
