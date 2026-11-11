@@ -1,0 +1,17 @@
+/*
+ * Leaflet desenează cercul ca element SVG și îi pune clasa primită prin `className`.
+ * Proprietățile de mai jos înlocuiesc culorile implicite ale Leaflet (albastru).
+ */
+.circle {
+  fill: var(--color-primary);
+  fill-opacity: 0.14;
+  stroke: var(--color-primary);
+  stroke-opacity: 0.9;
+  stroke-width: 2.5px;
+}
+
+@media (max-width: 480px) {
+  .circle {
+    stroke-width: 2px;
+  }
+}

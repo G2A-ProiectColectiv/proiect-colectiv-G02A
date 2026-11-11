@@ -11,8 +11,17 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
  */
 delete (L.Icon.Default.prototype as unknown as { _getIconUrl?: unknown })._getIconUrl;
 
+/*
+ * În funcție de bundler, importul unei imagini întoarce fie adresa ca text, fie un obiect
+ * `{ src }`. Cu Turbopack, în browser vine textul, iar `.src` ar fi `undefined`
+ * (Leaflet aruncă atunci „iconUrl not set” și pagina se oprește).
+ */
+function assetUrl(asset: string | { src: string }): string {
+  return typeof asset === "string" ? asset : asset.src;
+}
+
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x.src,
-  iconUrl: markerIcon.src,
-  shadowUrl: markerShadow.src,
+  iconRetinaUrl: assetUrl(markerIcon2x),
+  iconUrl: assetUrl(markerIcon),
+  shadowUrl: assetUrl(markerShadow),
 });

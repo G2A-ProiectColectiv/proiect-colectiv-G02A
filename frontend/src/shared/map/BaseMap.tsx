@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "./leafletSetup";
 import styles from "./BaseMap.module.css";
@@ -20,6 +21,8 @@ export interface BaseMapProps {
   scrollWheelZoom?: boolean;
   ariaLabel?: string;
   className?: string;
+  /** Straturi suplimentare desenate în hartă (ex. `RadiusCircle`). */
+  children?: ReactNode;
 }
 
 /** Hartă OpenStreetMap. Se importă doar prin `shared/map/index.ts`, ca să nu fie randată pe server. */
@@ -30,6 +33,7 @@ export function BaseMap({
   scrollWheelZoom = true,
   ariaLabel = "Hartă",
   className,
+  children,
 }: BaseMapProps) {
   return (
     <MapContainer
@@ -48,6 +52,7 @@ export function BaseMap({
           {marker.label && <Popup>{marker.label}</Popup>}
         </Marker>
       ))}
+      {children}
     </MapContainer>
   );
 }
