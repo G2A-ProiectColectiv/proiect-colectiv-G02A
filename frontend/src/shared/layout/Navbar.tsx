@@ -146,6 +146,11 @@ export function Navbar() {
                     </Link>
                   )}
 
+                  {user.role === "TENANT" && (
+                    <Link href="/my-requests/new" className={styles.primaryAction}>
+                      Cerere nouă
+                    </Link>
+                  )}
 
                   <Link href="/profile" className={styles.profile}>
                     <Avatar

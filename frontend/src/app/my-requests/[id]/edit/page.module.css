@@ -1,0 +1,24 @@
+/* Învelișul rutei: ocupă restul înălțimii de sub meniu, ca view-ul să se poată întinde. */
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-7) var(--space-4);
+}
+
+@media (max-width: 380px) {
+  .page {
+    overflow-x: hidden;
+  }
+
+  .loading {
+    padding: var(--space-6) var(--space-3);
+  }
+}

@@ -24,7 +24,21 @@ export interface GoogleMapsLinkInputProps {
   initialCoordinates?: Coordinates | null;
   /** Apelat cu coordonatele găsite, sau cu `null` când linkul se schimbă ori nu are coordonate. */
   onLocationChange?: (coordinates: Coordinates | null) => void;
+  /** Eticheta câmpului. Implicit „Link Google Maps". */
+  label?: string;
+  /** Câmp obligatoriu (anunțuri) sau opțional (zona unei cereri). */
+  required?: boolean;
+  /** `false` când componenta părinte își afișează propria hartă (ex. cercul zonei). */
+  showPreviewMap?: boolean;
+  /** Textul de după coordonatele găsite. */
+  foundHint?: string;
+  /** Avertismentul pentru o locație din afara României (LOC-13). */
+  outsideRomaniaMessage?: string;
 }
+
+const DEFAULT_FOUND_HINT = "Verifică dacă pin-ul e pe locuința ta.";
+const DEFAULT_OUTSIDE_ROMANIA_MESSAGE =
+  "Locația pare să fie în afara României. Poți salva anunțul, dar verifică încă o dată linkul.";
 
 function formatCoordinate(value: number): string {
   return value.toFixed(5);
@@ -39,6 +53,11 @@ export function GoogleMapsLinkInput({
   error,
   initialCoordinates = null,
   onLocationChange,
+  label = "Link Google Maps",
+  required = true,
+  showPreviewMap = true,
+  foundHint = DEFAULT_FOUND_HINT,
+  outsideRomaniaMessage = DEFAULT_OUTSIDE_ROMANIA_MESSAGE,
 }: GoogleMapsLinkInputProps) {
   const parse = useParseLocation();
   // Până când utilizatorul modifică linkul, arătăm coordonatele salvate.
@@ -62,7 +81,7 @@ export function GoogleMapsLinkInput({
 
   return (
     <div className={styles.wrapper}>
-      <FormField label="Link Google Maps" htmlFor={id} required error={error}>
+      <FormField label={label} htmlFor={id} required={required} error={error}>
         <Input
           id={id}
           ref={inputRef}
@@ -117,18 +136,17 @@ export function GoogleMapsLinkInput({
             <p className={styles.found}>
               <Icon name="check" size={18} />
               Locație găsită: {formatCoordinate(coordinates.latitude)},{" "}
-              {formatCoordinate(coordinates.longitude)}. Verifică dacă pin-ul e pe locuința ta.
+              {formatCoordinate(coordinates.longitude)}. {foundHint}
             </p>
 
             {!isInRomania(coordinates) && (
               <p className={styles.warning} role="status">
                 <Icon name="alert" size={18} />
-                Locația pare să fie în afara României. Poți salva anunțul, dar verifică încă o dată
-                linkul.
+                {outsideRomaniaMessage}
               </p>
             )}
 
-            <LocationPreviewMap coordinates={coordinates} />
+            {showPreviewMap && <LocationPreviewMap coordinates={coordinates} />}
           </>
         )}
       </div>
