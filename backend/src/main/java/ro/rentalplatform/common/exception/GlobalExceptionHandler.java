@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+import ro.rentalplatform.location.exception.CoordinatesNotFoundException;
+import ro.rentalplatform.location.exception.TooManyRequestsException;
 import ro.rentalplatform.storage.InvalidImageException;
 
 import java.util.List;
@@ -76,6 +78,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ApiError> handleConflict(ConflictException ex, HttpServletRequest request) {
         return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
+    }
+
+    @ExceptionHandler(CoordinatesNotFoundException.class)
+    public ResponseEntity<ApiError> handleCoordinatesNotFound(CoordinatesNotFoundException ex,
+                                                              HttpServletRequest request) {
+        return build(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage(), request, null);
+    }
+
+    @ExceptionHandler(TooManyRequestsException.class)
+    public ResponseEntity<ApiError> handleTooManyRequests(TooManyRequestsException ex,
+                                                          HttpServletRequest request) {
+        return build(HttpStatus.TOO_MANY_REQUESTS, ex.getMessage(), request, null);
     }
 
     @ExceptionHandler(Exception.class)
