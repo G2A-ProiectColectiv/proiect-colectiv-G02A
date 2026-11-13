@@ -9,7 +9,9 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+import ro.rentalplatform.storage.InvalidImageException;
 
 import java.util.List;
 
@@ -59,6 +61,16 @@ public class GlobalExceptionHandler {
                 ? ex.getMessage()
                 : "Resursa nu a fost găsită.";
         return build(HttpStatus.NOT_FOUND, message, request, null);
+    }
+
+    @ExceptionHandler(InvalidImageException.class)
+    public ResponseEntity<ApiError> handleInvalidImage(InvalidImageException ex, HttpServletRequest request) {
+        return build(HttpStatus.BAD_REQUEST, ex.getMessage(), request, null);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ApiError> handleMaxUploadSize(MaxUploadSizeExceededException ex, HttpServletRequest request) {
+        return build(HttpStatus.BAD_REQUEST, "Fișierul este prea mare. Dimensiunea maximă permisă este 5 MB.", request, null);
     }
 
     @ExceptionHandler(ConflictException.class)
