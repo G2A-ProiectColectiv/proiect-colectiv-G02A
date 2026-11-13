@@ -9,6 +9,7 @@ import { Button } from "@/shared/components/Button";
 import { FormField } from "@/shared/components/FormField";
 import { Icon } from "@/shared/components/Icon";
 import { Input } from "@/shared/components/Input";
+import { PasswordInput } from "@/shared/components/PasswordInput";
 import { loginSchema, type LoginFormValues } from "../schemas/authSchemas";
 import { useLogin } from "../hooks/useLogin";
 import styles from "./LoginForm.module.css";
@@ -89,9 +90,8 @@ export function LoginForm() {
           </Link>
         }
       >
-        <Input
+        <PasswordInput
           id="password"
-          type="password"
           autoComplete="current-password"
           invalid={!!errors.password || credentialsRejected}
           aria-describedby={errors.password ? "password-error" : undefined}

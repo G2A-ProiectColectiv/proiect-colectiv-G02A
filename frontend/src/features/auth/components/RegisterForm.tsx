@@ -9,6 +9,7 @@ import { Button } from "@/shared/components/Button";
 import { FormField } from "@/shared/components/FormField";
 import { Icon, type IconName } from "@/shared/components/Icon";
 import { Input } from "@/shared/components/Input";
+import { PasswordInput } from "@/shared/components/PasswordInput";
 import { registerSchema, type RegisterFormValues } from "../schemas/authSchemas";
 import { useRegister } from "../hooks/useRegister";
 import type { SelfRegisterRole } from "../types";
@@ -150,9 +151,8 @@ export function RegisterForm() {
         hint="Alege o parolă pe care n-o folosești în alt loc."
         error={errors.password?.message}
       >
-        <Input
+        <PasswordInput
           id="password"
-          type="password"
           autoComplete="new-password"
           invalid={!!errors.password}
           aria-describedby={errors.password ? "password-error" : "password-hint"}
