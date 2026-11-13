@@ -150,7 +150,7 @@ curl -X POST localhost:8080/api/location/parse -H "Authorization: Bearer $TOKEN"
 ## 1.3.5 Clasele comune pentru resurse cu proprietar
 
 **Fișiere**
-```
+```cd 
 …/common/
   ├── domain/
 + │   ├── OwnedResource.java              # interfață: Long getOwnerId()
