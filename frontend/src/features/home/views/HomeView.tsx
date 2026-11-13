@@ -3,6 +3,7 @@ import { LinkButton } from "@/shared/components/LinkButton";
 import { HeroSearch } from "../components/HeroSearch";
 import { ListingCardPreview, type ListingCardPreviewProps } from "../components/ListingCardPreview";
 import { MapPreview } from "../components/MapPreview";
+import { RoleRestrictedLink } from "../components/RoleRestrictedLink";
 import styles from "./HomeView.module.css";
 import { AccountDeletedMessage } from "@/features/profile/components/AccountDeletedMessage";
 import { Suspense } from "react";
@@ -119,9 +120,15 @@ export function HomeView() {
             contacta.
           </p>
           <div className={styles.ctaActions}>
-            <LinkButton href="/my-requests/new" variant="accent">
+            <RoleRestrictedLink
+              href="/my-requests/new"
+              variant="accent"
+              blockedRole="LANDLORD"
+              warningTitle="Nu poți publica o cerere"
+              warningMessage="Contul tău este de proprietar, iar cererile de închiriere pot fi publicate doar de chiriași. Pentru a publica o cerere, autentifică-te cu un cont de chiriaș."
+            >
               Publică o cerere
-            </LinkButton>
+            </RoleRestrictedLink>
             <LinkButton href="/listings" variant="textOnDark">
               Caută anunțuri
             </LinkButton>
@@ -136,9 +143,15 @@ export function HomeView() {
             cine ți se potrivește.
           </p>
           <div className={styles.ctaActions}>
-            <LinkButton href="/my-listings/new" variant="primary">
+            <RoleRestrictedLink
+              href="/my-listings/new"
+              variant="primary"
+              blockedRole="TENANT"
+              warningTitle="Nu poți publica un anunț"
+              warningMessage="Contul tău este de chiriaș, iar anunțurile pot fi publicate doar de proprietari. Pentru a publica un anunț, autentifică-te cu un cont de proprietar."
+            >
               Publică un anunț
-            </LinkButton>
+            </RoleRestrictedLink>
             <LinkButton href="/requests" variant="text">
               Vezi cererile
             </LinkButton>

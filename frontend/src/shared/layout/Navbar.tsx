@@ -165,7 +165,7 @@ export function Navbar() {
                   </Link>
 
 
-                  <Button variant="text" size="sm" className={styles.logout} onClick={() => logout()}>
+                  <Button variant="text" size="sm" className={styles.logout} onClick={() => logout("/")}>
                     Deconectare
                   </Button>
                 </>

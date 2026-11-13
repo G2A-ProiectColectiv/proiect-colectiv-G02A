@@ -20,6 +20,8 @@ export interface ConfirmDialogProps {
   message: string;
   confirmLabel: string;
   cancelLabel?: string;
+  /** Ascunde butonul de renunțare (pentru dialoguri de avertizare cu un singur buton). */
+  hideCancel?: boolean;
   /** `danger` pentru acțiuni care nu se pot anula (ștergeri). */
   tone?: "primary" | "danger";
   /** Se afișează un spinner pe butonul de confirmare și dialogul nu se mai poate închide. */
@@ -68,6 +70,7 @@ function ConfirmDialogBody({
   message,
   confirmLabel,
   cancelLabel = "Anulează",
+  hideCancel = false,
   tone = "primary",
   loading = false,
   field,
@@ -106,9 +109,11 @@ function ConfirmDialogBody({
       )}
 
       <div className={styles.actions}>
-        <Button variant="secondary" disabled={loading} onClick={onCancel}>
-          {cancelLabel}
-        </Button>
+        {!hideCancel && (
+          <Button variant="secondary" disabled={loading} onClick={onCancel}>
+            {cancelLabel}
+          </Button>
+        )}
         <Button type="submit" variant={tone === "danger" ? "danger" : "primary"} loading={loading}>
           {confirmLabel}
         </Button>

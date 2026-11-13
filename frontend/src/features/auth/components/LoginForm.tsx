@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +10,7 @@ import { FormField } from "@/shared/components/FormField";
 import { Icon } from "@/shared/components/Icon";
 import { Input } from "@/shared/components/Input";
 import { PasswordInput } from "@/shared/components/PasswordInput";
+import { useAuth } from "../context/AuthContext";
 import { loginSchema, type LoginFormValues } from "../schemas/authSchemas";
 import { useLogin } from "../hooks/useLogin";
 import styles from "./LoginForm.module.css";
@@ -27,6 +28,7 @@ export function LoginForm() {
     register,
     handleSubmit,
     setError,
+    reset,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -34,6 +36,16 @@ export function LoginForm() {
   });
   const [formError, setFormError] = useState<string | null>(null);
   const { mutate, isPending } = useLogin();
+  const { user } = useAuth();
+
+  // După delogare formularul trebuie să fie gol, chiar dacă pagina de login
+  // a fost păstrată în memorie de la autentificarea anterioară.
+  useEffect(() => {
+    if (!user) {
+      reset({ email: "", password: "" });
+      setFormError(null);
+    }
+  }, [user, reset]);
 
   // La credențiale greșite marcăm ambele câmpuri, fără mesaj separat sub ele.
   const credentialsRejected = formError === WRONG_CREDENTIALS;
