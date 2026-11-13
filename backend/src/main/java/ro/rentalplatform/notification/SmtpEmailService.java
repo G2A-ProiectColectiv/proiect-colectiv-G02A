@@ -2,7 +2,9 @@ package ro.rentalplatform.notification;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.context.annotation.Profile;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -12,14 +14,18 @@ import org.thymeleaf.context.Context;
 import java.util.Map;
 
 @Service
-@Profile("prod")
+@ConditionalOnProperty(name = "app.mail.enabled", havingValue = "true")
 public class SmtpEmailService implements EmailService {
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
+    private final String from;
 
-    public SmtpEmailService(JavaMailSender mailSender, TemplateEngine templateEngine) {
+    public SmtpEmailService(JavaMailSender mailSender,
+                            TemplateEngine templateEngine,
+                            @Value("${app.mail.from:}") String from) {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
+        this.from = from;
     }
 
     @Override
@@ -27,6 +33,9 @@ public class SmtpEmailService implements EmailService {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            if (!from.isBlank()) {
+                helper.setFrom(from);
+            }
             helper.setTo(to);
             helper.setSubject(subject);
 
@@ -35,7 +44,7 @@ public class SmtpEmailService implements EmailService {
             String html = templateEngine.process(templateName, context);
             helper.setText(html, true);
             mailSender.send(message);
-        } catch (MessagingException ex) {
+        } catch (MessagingException | MailException ex) {
             throw new IllegalStateException("Email-ul nu a putut fi trimis.", ex);
         }
     }
