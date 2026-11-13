@@ -20,6 +20,13 @@ import java.util.List;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
+    /*
+     * Tokenul este opțional: dacă lipsește, e invalid sau aparține unui cont inactiv, cererea merge mai departe
+     * ca anonimă. Rutele publice (căutarea și detaliile anunțurilor) funcționează astfel și fără token, iar
+     * cu un token valid serviciile știu că utilizatorul e autentificat (de ex. pentru telefonul proprietarului).
+     * Rutele protejate răspund cu 401 prin RestAuthenticationEntryPoint, nu din acest filtru.
+     */
+
     private final JwtService jwtService;
     private final UserRepository userRepository;
 

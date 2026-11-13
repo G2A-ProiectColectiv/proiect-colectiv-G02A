@@ -34,6 +34,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
+                        // „Anunțurile mele” rămân doar pentru proprietari; regula trebuie să stea
+                        // înaintea celei publice, altfel /api/listings/{id} ar prinde și /mine.
+                        .requestMatchers(HttpMethod.GET, "/api/listings/mine", "/api/listings/mine/**")
+                                .hasRole("LANDLORD")
+                        // Căutarea, harta și detaliile anunțurilor sunt publice (CAUT-01, DET-01).
+                        .requestMatchers(HttpMethod.GET, "/api/listings", "/api/listings/map", "/api/listings/{id}")
+                                .permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
