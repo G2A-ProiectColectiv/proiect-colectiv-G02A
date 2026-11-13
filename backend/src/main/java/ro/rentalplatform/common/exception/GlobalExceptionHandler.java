@@ -9,6 +9,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import ro.rentalplatform.location.exception.CoordinatesNotFoundException;
@@ -41,6 +42,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleUnreadable(HttpMessageNotReadableException ex,
                                                      HttpServletRequest request) {
         return build(HttpStatus.BAD_REQUEST, "Corpul cererii este invalid.", request, null);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiError> handleTypeMismatch(MethodArgumentTypeMismatchException ex,
+                                                       HttpServletRequest request) {
+        String message = "Valoarea parametrului „" + ex.getName() + "” nu este validă.";
+        return build(HttpStatus.BAD_REQUEST, message, request,
+                List.of(new FieldErrorDto(ex.getName(), message)));
     }
 
     @ExceptionHandler(BadCredentialsAppException.class)

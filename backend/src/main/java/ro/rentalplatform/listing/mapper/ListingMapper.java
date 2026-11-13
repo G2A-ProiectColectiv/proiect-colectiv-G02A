@@ -8,6 +8,7 @@ import ro.rentalplatform.listing.domain.Listing;
 import ro.rentalplatform.listing.domain.ListingImage;
 import ro.rentalplatform.listing.dto.ListingDto;
 import ro.rentalplatform.listing.dto.ListingImageDto;
+import ro.rentalplatform.listing.dto.ListingMapMarkerDto;
 import ro.rentalplatform.listing.dto.ListingSummaryDto;
 
 import java.util.Comparator;
@@ -23,6 +24,9 @@ public interface ListingMapper {
 
     @Mapping(target = "primaryImage", expression = "java(resolvePrimaryImage(listing.getImages()))")
     ListingSummaryDto toSummaryDto(Listing listing);
+
+    @Mapping(target = "primaryImage", expression = "java(resolvePrimaryImage(listing.getImages()))")
+    ListingMapMarkerDto toMarkerDto(Listing listing);
 
     ListingImageDto toImageDto(ListingImage image);
 

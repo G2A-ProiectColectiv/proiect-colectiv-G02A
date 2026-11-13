@@ -3,6 +3,7 @@ package ro.rentalplatform.rentalrequest.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +12,8 @@ import ro.rentalplatform.rentalrequest.domain.RequestStatus;
 
 import java.util.List;
 
-public interface RentalRequestRepository extends JpaRepository<RentalRequest, Long> {
+public interface RentalRequestRepository extends JpaRepository<RentalRequest, Long>,
+        JpaSpecificationExecutor<RentalRequest> {
 
     Page<RentalRequest> findByTenantIdAndStatus(Long tenantId, RequestStatus status, Pageable pageable);
 
