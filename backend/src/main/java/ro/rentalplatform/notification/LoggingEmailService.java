@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-@Profile("dev")
+@Profile({"dev" ,"test"})
 public class LoggingEmailService implements EmailService {
     private static final Logger log = LoggerFactory.getLogger(LoggingEmailService.class);
 
