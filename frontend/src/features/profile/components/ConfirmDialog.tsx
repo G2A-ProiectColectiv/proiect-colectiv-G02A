@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { PasswordInput } from "@/shared/components/PasswordInput";
 import styles from "./ConfirmDialog.module.css";
 
 interface ConfirmDialogProps {
@@ -66,14 +67,12 @@ export function ConfirmDialog({
               Parola contului
             </label>
 
-            <input
+            <PasswordInput
               id="confirm-dialog-password"
-              type="password"
               autoComplete="current-password"
               value={password ?? ""}
               onChange={(event) => onPasswordChange(event.target.value)}
               disabled={isPending}
-              className={styles.input}
             />
           </div>
         )}

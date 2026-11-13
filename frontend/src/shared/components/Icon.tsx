@@ -10,6 +10,8 @@ export type IconName =
   | "alert"
   | "sliders"
   | "user"
+  | "eye"
+  | "eye-off"
   | "arrow-right"
   | "arrow-left"
   | "chevron-left"
@@ -60,6 +62,19 @@ const SHAPES: Record<IconName, ReactNode> = {
     <>
       <circle cx="12" cy="8" r="4" />
       <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
+    </>
+  ),
+  eye: (
+    <>
+      <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
+  "eye-off": (
+    <>
+      <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
+      <circle cx="12" cy="12" r="3" />
+      <path d="M4 4l16 16" />
     </>
   ),
   "arrow-right": <path d="M5 12h14m-6-6 6 6-6 6" />,

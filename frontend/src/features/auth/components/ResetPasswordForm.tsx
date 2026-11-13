@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { getApiErrorMessage, getApiErrorStatus } from "@/shared/api/apiError";
 import { Button } from "@/shared/components/Button";
 import { FormField } from "@/shared/components/FormField";
-import { Input } from "@/shared/components/Input";
+import { PasswordInput } from "@/shared/components/PasswordInput";
 
 import {
   resetPasswordSchema,
@@ -110,9 +110,8 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         htmlFor="newPassword"
         error={errors.newPassword?.message}
       >
-        <Input
+        <PasswordInput
           id="newPassword"
-          type="password"
           autoComplete="new-password"
           invalid={!!errors.newPassword}
           aria-describedby={errors.newPassword ? "newPassword-error" : undefined}
@@ -125,9 +124,8 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         htmlFor="confirmPassword"
         error={errors.confirmPassword?.message}
       >
-        <Input
+        <PasswordInput
           id="confirmPassword"
-          type="password"
           autoComplete="new-password"
           invalid={!!errors.confirmPassword}
           aria-describedby={
