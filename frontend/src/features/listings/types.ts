@@ -54,6 +54,20 @@ export interface Listing {
   updatedAt: string;
 }
 
+/** Proprietarul din pagina publică. `phone` e `null` pentru vizitatorii neautentificați (DET-03). */
+export interface ListingOwner {
+  id: number;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string | null;
+  phone: string | null;
+}
+
+/** `ListingDetailsDto`: pagina publică a unui anunț. */
+export interface ListingDetails extends Listing {
+  owner: ListingOwner;
+}
+
 /** `ListingSummaryDto`, din lista „Anunțurile mele". Câmpurile marcate `?` se afișează doar dacă backendul le trimite. */
 export interface ListingSummary {
   id: number;
@@ -94,6 +108,37 @@ export interface MyListingsParams {
   /** Numărătoarea începe de la 0. */
   page?: number;
   size?: number;
+}
+
+/** Parametrii trimiși la `GET /api/listings` (căutarea publică). `page` începe de la 0. */
+export interface ListingSearchParams {
+  minPrice?: number;
+  maxPrice?: number;
+  type?: PropertyType;
+  minRooms?: number;
+  minBathrooms?: number;
+  minArea?: number;
+  maxArea?: number;
+  city?: string;
+  /** Dotările separate prin virgulă; anunțul trebuie să le aibă pe toate. */
+  amenities?: string;
+  /** Dată ISO (`2026-12-01`). */
+  availableBy?: string;
+  /** `câmp,asc|desc`, ex. `price,asc`. */
+  sort?: string;
+  page?: number;
+  size?: number;
+}
+
+/** `ListingMapMarkerDto` de la `GET /api/listings/map`. */
+export interface ListingMapMarker {
+  id: number;
+  title: string;
+  price: number;
+  currency: Currency;
+  primaryImage: string | null;
+  latitude: number;
+  longitude: number;
 }
 
 export const MAX_LISTING_IMAGES = 10;

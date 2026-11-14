@@ -1,8 +1,29 @@
+"use client";
+
+import { formatArea } from "@/features/listings/utils/formatters";
 import { Icon } from "@/shared/components/Icon";
+import { useHomeListings } from "../hooks/useHomeListings";
 import styles from "./MapPreview.module.css";
 
-/** Ilustrație a hărții cu anunțuri, doar decorativă; harta reală (OpenStreetMap) vine în etapa 1.5. */
+const PILL_CLASSES = [styles.pillA, styles.pillB, styles.pillC, styles.pillD];
+const SELECTED_PILL = 2;
+
+const priceFormat = new Intl.NumberFormat("ro-RO", { maximumFractionDigits: 2 });
+
+function price(amount: number, currency: "RON" | "EUR"): string {
+  return `${priceFormat.format(amount)} ${currency === "EUR" ? "€" : "RON"}`;
+}
+
+/**
+ * Ilustrație a hărții cu anunțuri; harta propriu-zisă e în căutare. Prețurile, numărul
+ * și cardul vin din anunțurile reale; pozițiile pe hartă sunt doar decorative.
+ */
 export function MapPreview() {
+  const { data } = useHomeListings();
+  const items = data?.items ?? [];
+  const selectedIndex = Math.min(SELECTED_PILL, items.length - 1);
+  const selected = items[selectedIndex];
+
   return (
     <div className={styles.map} role="img" aria-label="Exemplu de hartă cu anunțuri">
       <svg
@@ -24,22 +45,36 @@ export function MapPreview() {
         </g>
       </svg>
 
-      <span className={`${styles.pill} ${styles.pillA}`}>380 €</span>
-      <span className={`${styles.pill} ${styles.pillB}`}>1.100 RON</span>
-      <span className={`${styles.pill} ${styles.pillSelected} ${styles.pillC}`}>450 €</span>
-      <span className={`${styles.pill} ${styles.pillD}`}>520 €</span>
-      <span className={styles.cluster}>6</span>
+      {items.slice(0, PILL_CLASSES.length).map((listing, index) => (
+        <span
+          key={listing.id}
+          className={`${styles.pill} ${index === selectedIndex ? styles.pillSelected : ""} ${PILL_CLASSES[index]}`}
+        >
+          {price(listing.price, listing.currency)}
+        </span>
+      ))}
+      {data && data.totalElements > 1 && (
+        <span className={styles.cluster}>{data.totalElements}</span>
+      )}
 
-      <div className={styles.card}>
-        <span className={styles.thumb}>
-          <Icon name="home" size={26} />
-        </span>
-        <span className={styles.cardText}>
-          <strong className={styles.cardTitle}>Apartament 2 camere, mobilat</strong>
-          <span className={styles.cardMeta}>Cluj-Napoca, Mărăști · 54 m²</span>
-          <strong className={styles.cardPrice}>450 € / lună</strong>
-        </span>
-      </div>
+      {selected && (
+        <div className={styles.card}>
+          <span className={styles.thumb}>
+            <Icon name="home" size={26} />
+          </span>
+          <span className={styles.cardText}>
+            <strong className={styles.cardTitle}>{selected.title}</strong>
+            <span className={styles.cardMeta}>
+              {[selected.city, selected.areaSqm !== undefined ? formatArea(selected.areaSqm) : null]
+                .filter(Boolean)
+                .join(" · ")}
+            </span>
+            <strong className={styles.cardPrice}>
+              {price(selected.price, selected.currency)} / lună
+            </strong>
+          </span>
+        </div>
+      )}
     </div>
   );
 }

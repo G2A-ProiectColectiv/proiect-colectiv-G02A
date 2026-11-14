@@ -1,7 +1,7 @@
 import { Icon } from "@/shared/components/Icon";
 import { LinkButton } from "@/shared/components/LinkButton";
 import { HeroSearch } from "../components/HeroSearch";
-import { ListingCardPreview, type ListingCardPreviewProps } from "../components/ListingCardPreview";
+import { RecentListings } from "../components/RecentListings";
 import { MapPreview } from "../components/MapPreview";
 import { RoleRestrictedLink } from "../components/RoleRestrictedLink";
 import styles from "./HomeView.module.css";
@@ -9,57 +9,6 @@ import { AccountDeletedMessage } from "@/features/profile/components/AccountDele
 import { Suspense } from "react";
 
 const PERKS = ["Căutare fără cont", "Locație pe hartă", "Contact direct"];
-
-/*
- * Anunțuri de exemplu, doar pentru aspect. Lista reală (`GET /api/listings`) se
- * conectează în etapa 1.5, când există și paginile de căutare.
- */
-const SAMPLE_LISTINGS: ListingCardPreviewProps[] = [
-  {
-    href: "/listings",
-    price: "380",
-    currency: "€",
-    title: "Garsonieră modernă, lângă metrou",
-    meta: ["1 cam.", "1 baie", "32 m²"],
-    location: "București, Drumul Taberei",
-    badge: "Disponibil acum",
-    badgeTone: "available",
-    tone: "green",
-  },
-  {
-    href: "/listings",
-    price: "450",
-    currency: "€",
-    title: "Apartament 2 camere, mobilat complet",
-    meta: ["2 cam.", "1 baie", "54 m²"],
-    location: "Cluj-Napoca, Mărăști",
-    badge: "Disponibil acum",
-    badgeTone: "available",
-    tone: "yellow",
-  },
-  {
-    href: "/listings",
-    price: "1.100",
-    currency: "RON",
-    title: "Cameră în apartament de studenți",
-    meta: ["1 cam.", "1 baie", "16 m²"],
-    location: "Iași, Copou",
-    badge: "Din 1 dec.",
-    badgeTone: "soon",
-    tone: "blue",
-  },
-  {
-    href: "/listings",
-    price: "900",
-    currency: "€",
-    title: "Casă cu curte, 4 camere",
-    meta: ["4 cam.", "2 băi", "120 m²"],
-    location: "Timișoara, Fabric",
-    badge: "Disponibil acum",
-    badgeTone: "available",
-    tone: "pink",
-  },
-];
 
 export function HomeView() {
   return (
@@ -104,11 +53,7 @@ export function HomeView() {
           </LinkButton>
         </div>
 
-        <div className={styles.cards}>
-          {SAMPLE_LISTINGS.map((listing) => (
-            <ListingCardPreview key={listing.title} {...listing} />
-          ))}
-        </div>
+        <RecentListings />
       </section>
 
       <section className={styles.ctas}>
