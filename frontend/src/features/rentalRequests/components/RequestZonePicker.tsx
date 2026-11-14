@@ -104,9 +104,8 @@ export function RequestZonePicker({
           </div>
 
           <div className={styles.frame}>
-            {/* `key` remontează harta când se schimbă centrul, ca să se recentreze. */}
+            {/* Harta se recentrează singură când se schimbă centrul (vezi `BaseMap`). */}
             <Map
-              key={`${center.latitude},${center.longitude}`}
               center={[center.latitude, center.longitude]}
               zoom={MAP_ZOOM}
               markers={[{ id: "center", position: [center.latitude, center.longitude] }]}

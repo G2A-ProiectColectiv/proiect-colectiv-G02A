@@ -123,16 +123,10 @@
   border: 2px solid var(--color-line);
   border-radius: var(--radius-control);
   background: var(--color-primary-light);
-  cursor: pointer;
 }
 
-.photo[aria-pressed="true"] {
+.primary {
   border-color: var(--color-primary);
-  cursor: default;
-}
-
-.photo:disabled {
-  cursor: progress;
 }
 
 .img {

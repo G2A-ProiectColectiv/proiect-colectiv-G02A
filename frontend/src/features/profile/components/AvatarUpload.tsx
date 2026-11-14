@@ -31,7 +31,7 @@ export function AvatarUpload({ profile }: AvatarUploadProps) {
     };
   }, [preview]);
 
-// Verifica imaginea selectata si genereaza previzualizarea.
+  // Verifica imaginea selectata si genereaza previzualizarea.
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     const selected = event.target.files?.[0];
 
@@ -54,7 +54,7 @@ export function AvatarUpload({ profile }: AvatarUploadProps) {
     setPreview(URL.createObjectURL(selected));
   }
 
-// Trimite imaginea selectata catre backend.
+  // Trimite imaginea selectata catre backend.
   function handleUpload() {
     if (!file) return;
 
@@ -73,7 +73,7 @@ export function AvatarUpload({ profile }: AvatarUploadProps) {
     });
   }
 
-// Solicita stergerea pozei de profil existente.
+  // Solicita stergerea pozei de profil existente.
   function handleRemove() {
     setError("");
     setMessage("");
@@ -99,11 +99,7 @@ export function AvatarUpload({ profile }: AvatarUploadProps) {
       <div className={styles.content}>
         {preview ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={preview}
-            alt="Previzualizarea pozei selectate"
-            className={styles.preview}
-          />
+          <img src={preview} alt="Previzualizarea pozei selectate" className={styles.preview} />
         ) : (
           <Avatar
             firstName={profile.firstName}
@@ -114,15 +110,13 @@ export function AvatarUpload({ profile }: AvatarUploadProps) {
         )}
 
         <div className={styles.controls}>
-          <p className={styles.hint}>
-            JPG, PNG sau WEBP. Maximum 5 MB.
-          </p>
+          <p className={styles.hint}>JPG, PNG sau JPEG. Maximum 5 MB.</p>
 
           <label className={styles.chooseButton}>
             Alege o imagine
             <input
               type="file"
-              accept=".jpg,.jpeg,.png,.webp"
+              accept=".jpg,.jpeg,.png"
               onChange={handleFileChange}
               disabled={isBusy}
               className={styles.fileInput}

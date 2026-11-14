@@ -17,9 +17,8 @@ export function LocationPreviewMap({ coordinates, label }: LocationPreviewMapPro
   return (
     <div className={styles.wrapper}>
       <div className={styles.frame}>
-        {/* `key` remontează harta când se schimbă coordonatele, ca să se recentreze. */}
+        {/* Harta se recentrează singură când se schimbă coordonatele (vezi `BaseMap`). */}
         <Map
-          key={`${latitude},${longitude}`}
           center={[latitude, longitude]}
           zoom={PREVIEW_ZOOM}
           markers={[{ id: "location", position: [latitude, longitude], label }]}

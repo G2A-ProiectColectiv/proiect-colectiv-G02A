@@ -52,14 +52,12 @@ public interface ListingMapper {
         if (images == null || images.isEmpty()) {
             return null;
         }
+        // Poza principală este prima din ordinea aleasă de proprietar, deci nu depinde de steagul `primary`.
         return images.stream()
-                .filter(ListingImage::isPrimary)
+                .sorted(Comparator.comparing(ListingImage::getPosition, Comparator.nullsLast(Comparator.naturalOrder()))
+                        .thenComparing(ListingImage::getId, Comparator.nullsLast(Comparator.naturalOrder())))
                 .map(ListingImage::getUrl)
                 .findFirst()
-                .orElseGet(() -> images.stream()
-                        .sorted(Comparator.comparing(ListingImage::getPosition, Comparator.nullsLast(Comparator.naturalOrder())))
-                        .map(ListingImage::getUrl)
-                        .findFirst()
-                        .orElse(null));
+                .orElse(null);
     }
 }
