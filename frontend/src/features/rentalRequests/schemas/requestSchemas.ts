@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { prefillMapsLink } from "@/features/location/utils/prefillMapsLink";
 import { PROPERTY_TYPES } from "@/features/listings/constants/propertyTypes";
 import type { PropertyType } from "@/features/listings/types";
 import { RADIUS_KM, type RentalRequest, type RentalRequestPayload } from "../types";
@@ -160,7 +161,11 @@ export function toFormValues(request: RentalRequest): RequestFormValues {
     desiredFrom: request.desiredFrom,
     city: request.city,
     area: request.area ?? "",
-    googleMapsUrl: request.googleMapsUrl ?? "",
+    googleMapsUrl: prefillMapsLink(
+      request.googleMapsUrl,
+      request.centerLatitude,
+      request.centerLongitude,
+    ),
     radiusKm: request.radiusKm ?? RADIUS_KM.default,
   };
 }
