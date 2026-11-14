@@ -7,4 +7,6 @@ build/
 .next/
 .idea
 *.iml
-docs/
+uploads/**
+!uploads/**/
+!uploads/**/.gitkeep
