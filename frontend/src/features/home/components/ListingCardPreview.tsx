@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@/shared/components/Icon";
 import styles from "./ListingCardPreview.module.css";
@@ -11,8 +12,10 @@ export interface ListingCardPreviewProps {
   location: string;
   badge: string;
   badgeTone: "available" | "soon";
-  /** Culoarea de fundal a zonei de poză (până când anunțurile au poze reale). */
+  /** Culoarea de fundal a zonei de poză, vizibilă când anunțul nu are poze. */
   tone: "green" | "yellow" | "blue" | "pink";
+  /** Adresa pozei principale; fără ea se afișează pictograma. */
+  imageSrc?: string | null;
 }
 
 export function ListingCardPreview({
@@ -25,12 +28,24 @@ export function ListingCardPreview({
   badge,
   badgeTone,
   tone,
+  imageSrc,
 }: ListingCardPreviewProps) {
   return (
     <Link href={href} className={styles.card}>
       <span className={`${styles.photo} ${styles[tone]}`}>
+        {imageSrc ? (
+          <Image
+            src={imageSrc}
+            alt=""
+            fill
+            sizes="(max-width: 720px) 100vw, 280px"
+            unoptimized
+            className={styles.img}
+          />
+        ) : (
+          <Icon name="home" size={44} className={styles.placeholder} />
+        )}
         <span className={`${styles.badge} ${styles[badgeTone]}`}>{badge}</span>
-        <Icon name="home" size={44} className={styles.placeholder} />
       </span>
 
       <span className={styles.body}>

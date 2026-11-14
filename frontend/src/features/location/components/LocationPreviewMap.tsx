@@ -1,4 +1,4 @@
-import { Map } from "@/shared/map";
+import { Map, OpenInGoogleMapsButton } from "@/shared/map";
 import type { Coordinates } from "../types";
 import styles from "./LocationPreviewMap.module.css";
 
@@ -15,16 +15,19 @@ export function LocationPreviewMap({ coordinates, label }: LocationPreviewMapPro
   const { latitude, longitude } = coordinates;
 
   return (
-    <div className={styles.frame}>
-      {/* `key` remontează harta când se schimbă coordonatele, ca să se recentreze. */}
-      <Map
-        key={`${latitude},${longitude}`}
-        center={[latitude, longitude]}
-        zoom={PREVIEW_ZOOM}
-        markers={[{ id: "location", position: [latitude, longitude], label }]}
-        scrollWheelZoom={false}
-        ariaLabel="Locația extrasă din link, pe hartă"
-      />
+    <div className={styles.wrapper}>
+      <div className={styles.frame}>
+        {/* `key` remontează harta când se schimbă coordonatele, ca să se recentreze. */}
+        <Map
+          key={`${latitude},${longitude}`}
+          center={[latitude, longitude]}
+          zoom={PREVIEW_ZOOM}
+          markers={[{ id: "location", position: [latitude, longitude], label }]}
+          scrollWheelZoom={false}
+          ariaLabel="Locația extrasă din link, pe hartă"
+        />
+      </div>
+      <OpenInGoogleMapsButton latitude={latitude} longitude={longitude} />
     </div>
   );
 }

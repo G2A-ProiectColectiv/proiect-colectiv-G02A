@@ -23,8 +23,7 @@ interface ProtectedRoute {
 const protectedRoutes: ProtectedRoute[] = [
   { prefix: "/profile", roles: ["TENANT", "LANDLORD", "ADMIN"] },
   { prefix: "/my-listings", roles: ["LANDLORD"] },
-  { prefix: "/my-requests", roles: ["TENANT"] },
-];
+  { prefix: "/my-requests", roles: ["TENANT"] },];
 
 /** Paginile pe care un utilizator deja autentificat nu are ce căuta. */
 const AUTH_PAGES = ["/login", "/register"];

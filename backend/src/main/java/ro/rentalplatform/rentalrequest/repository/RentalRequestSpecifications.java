@@ -2,6 +2,7 @@ package ro.rentalplatform.rentalrequest.repository;
 
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
+import ro.rentalplatform.common.search.TextSearch;
 import ro.rentalplatform.listing.domain.PropertyType;
 import ro.rentalplatform.rentalrequest.domain.RentalRequest;
 import ro.rentalplatform.rentalrequest.domain.RequestStatus;
@@ -13,7 +14,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -79,22 +79,24 @@ public final class RentalRequestSpecifications {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("budgetMin"), maxBudget);
     }
 
-    /** Orașul se compară fără să conteze literele mari și mici. */
+    /** Orașul se compară fără să conteze literele mari și mici, diacriticile sau „-” (vezi {@link TextSearch}). */
     public static Specification<RentalRequest> inCity(String city) {
-        if (city == null || city.isBlank()) {
+        String normalized = TextSearch.normalize(city);
+        if (normalized.isEmpty()) {
             return null;
         }
-        String normalized = city.trim().toLowerCase(Locale.ROOT);
-        return (root, query, cb) -> cb.equal(cb.lower(root.get("city")), normalized);
+        return (root, query, cb) -> cb.equal(TextSearch.normalized(cb, root.get("city")), normalized);
     }
 
-    /** Zona conține textul căutat (de ex. „mărăști” găsește „Mărăști, lângă parc”). */
+    /** Zona conține textul căutat (de ex. „marasti” găsește „Mărăști, lângă parc”), cu aceeași normalizare ca orașul. */
     public static Specification<RentalRequest> inArea(String area) {
-        if (area == null || area.isBlank()) {
+        String normalized = TextSearch.normalize(area);
+        if (normalized.isEmpty()) {
             return null;
         }
-        String pattern = "%" + escapeLike(area.trim().toLowerCase(Locale.ROOT)) + "%";
-        return (root, query, cb) -> cb.like(cb.lower(root.get("area")), pattern, '\\');
+        // Textul normalizat are doar litere, cifre și spații, deci nu conține caractere speciale pentru LIKE.
+        String pattern = "%" + normalized + "%";
+        return (root, query, cb) -> cb.like(TextSearch.normalized(cb, root.get("area")), pattern);
     }
 
     public static Specification<RentalRequest> minRooms(Short value) {
@@ -109,9 +111,5 @@ public final class RentalRequestSpecifications {
             return null;
         }
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("desiredFrom"), date);
-    }
-
-    private static String escapeLike(String value) {
-        return value.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
     }
 }

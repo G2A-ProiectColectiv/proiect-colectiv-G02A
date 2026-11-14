@@ -41,6 +41,12 @@ public class SecurityConfig {
                         // Căutarea, harta și detaliile anunțurilor sunt publice (CAUT-01, DET-01).
                         .requestMatchers(HttpMethod.GET, "/api/listings", "/api/listings/map", "/api/listings/{id}")
                                 .permitAll()
+                        // „Cererile mele” rămân doar pentru chiriași; regula stă înaintea celei publice.
+                        .requestMatchers(HttpMethod.GET, "/api/requests/mine", "/api/requests/mine/**")
+                                .hasRole("TENANT")
+                        // Căutarea și detaliile cererilor sunt publice; telefonul chiriașului doar pentru autentificați.
+                        .requestMatchers(HttpMethod.GET, "/api/requests", "/api/requests/{id}")
+                                .permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

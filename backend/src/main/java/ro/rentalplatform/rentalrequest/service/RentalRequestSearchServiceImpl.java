@@ -37,12 +37,28 @@ public class RentalRequestSearchServiceImpl implements RentalRequestSearchServic
 
     @Override
     @Transactional(readOnly = true)
-    public RentalRequestDetailsDto getDetails(Long id) {
+    public RentalRequestDetailsDto getDetails(Long id, boolean viewerAuthenticated) {
         RentalRequest request = requestRepository.findById(id)
                 .filter(candidate -> candidate.getStatus() == RequestStatus.ACTIVE)
                 .filter(candidate -> candidate.getTenant() != null
                         && candidate.getTenant().getStatus() == UserStatus.ACTIVE)
                 .orElseThrow(() -> new NotFoundException("Cererea nu mai este disponibilă."));
-        return requestMapper.toDetailsDto(request);
+
+        RentalRequestDetailsDto details = requestMapper.toDetailsDto(request);
+        return viewerAuthenticated ? details : withoutTenantPhone(details);
+    }
+
+    /** Vizitatorii neautentificați nu văd telefonul chiriașului. */
+    private static RentalRequestDetailsDto withoutTenantPhone(RentalRequestDetailsDto details) {
+        RentalRequestDetailsDto.Tenant tenant = details.tenant();
+        RentalRequestDetailsDto.Tenant hidden = tenant == null ? null : new RentalRequestDetailsDto.Tenant(
+                tenant.id(), tenant.firstName(), tenant.lastName(), tenant.avatarUrl(), null);
+
+        return new RentalRequestDetailsDto(
+                details.id(), details.title(), details.description(), details.desiredType(),
+                details.budgetMin(), details.budgetMax(), details.currency(), details.city(),
+                details.area(), details.rooms(), details.desiredFrom(), details.status(),
+                details.googleMapsUrl(), details.centerLatitude(), details.centerLongitude(),
+                details.radiusKm(), hidden, details.createdAt(), details.updatedAt());
     }
 }

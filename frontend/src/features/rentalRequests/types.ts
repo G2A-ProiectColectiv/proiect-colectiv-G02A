@@ -53,6 +53,42 @@ export interface RentalRequestSummary {
   desiredType?: PropertyType;
   area?: string | null;
   createdAt?: string;
+  /** Apare în căutarea proprietarilor (CAUT-06), nu și în „Cererile mele". */
+  tenant?: RequestTenantSummary;
+}
+
+/** Chiriașul de pe cardul cererii: doar numele și poza. */
+export interface RequestTenantSummary {
+  id: number;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string | null;
+}
+
+/** Chiriașul din detaliile cererii; proprietarul autentificat vede și telefonul. */
+export interface RequestTenant extends RequestTenantSummary {
+  phone: string | null;
+}
+
+/** `RentalRequestDetailsDto`: cererea văzută de un proprietar (DET-05). */
+export interface RentalRequestDetails extends RentalRequest {
+  tenant: RequestTenant;
+}
+
+/** Parametrii trimiși la `GET /api/requests` (căutarea proprietarilor). `page` începe de la 0. */
+export interface RentalRequestSearchParams {
+  type?: PropertyType;
+  minBudget?: number;
+  maxBudget?: number;
+  city?: string;
+  area?: string;
+  minRooms?: number;
+  /** Dată ISO (`2026-12-01`). */
+  desiredFrom?: string;
+  /** `câmp,asc|desc`, ex. `budgetMax,desc`. */
+  sort?: string;
+  page?: number;
+  size?: number;
 }
 
 /**

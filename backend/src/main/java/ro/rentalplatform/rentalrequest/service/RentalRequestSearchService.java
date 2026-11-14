@@ -15,6 +15,9 @@ public interface RentalRequestSearchService {
     /** Căutare paginată, doar cereri ACTIVE ale chiriașilor activi (CAUT-02, CAUT-05). */
     PageResponse<RentalRequestSummaryDto> search(RentalRequestSearchCriteria criteria, Pageable pageable);
 
-    /** Detaliile unei cereri (DET-05). Cerere inexistentă sau care nu e ACTIVE → 404. */
-    RentalRequestDetailsDto getDetails(Long id);
+    /**
+     * Detaliile unei cereri (DET-05). Telefonul chiriașului se trimite doar dacă cererea vine de la
+     * un utilizator autentificat. Cerere inexistentă sau care nu e ACTIVE → 404.
+     */
+    RentalRequestDetailsDto getDetails(Long id, boolean viewerAuthenticated);
 }

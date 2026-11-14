@@ -19,14 +19,17 @@ interface NavLink {
  * Link-urile fiecărui rol. Unele pagini apar în etapele următoare (1.2–1.6),
  * deci până atunci aceste adrese duc la pagina 404.
  */
-const LISTINGS_LINK: NavLink = { href: "/listings", label: "Anunțuri" };
+const LISTINGS_LINK: NavLink = { href: "/listings", label: "Caută locuințe" };
 
-const GUEST_LINKS: NavLink[] = [LISTINGS_LINK];
+const GUEST_LINKS: NavLink[] = [
+  LISTINGS_LINK,
+  { href: "/requests", label: "Cereri de la chiriași" },
+];
 
 const LINKS_BY_ROLE: Record<Role, NavLink[]> = {
   TENANT: [LISTINGS_LINK, { href: "/my-requests", label: "Cererile mele" }],
   LANDLORD: [
-    { href: "/requests", label: "Cereri" },
+    { href: "/requests", label: "Cereri de la chiriași" },
     { href: "/my-listings", label: "Anunțurile mele" },
   ],
   ADMIN: [{ href: "/admin/users", label: "Utilizatori" }],
