@@ -142,19 +142,11 @@ public class ListingImageServiceImpl implements ListingImageService {
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("Poza nu a fost găsită."));
 
-        if (!newPrimary.isPrimary()) {
-            for (ListingImage img : images) {
-                if (img.isPrimary()) {
-                    img.setPrimary(false);
-                    listingImageRepository.save(img);
-                }
-            }
-            listingImageRepository.flush();
-
-            newPrimary.setPrimary(true);
-            listingImageRepository.save(newPrimary);
-            listingImageRepository.flush();
-        }
+        // Poza principală este mereu prima: o mutăm pe prima poziție.
+        List<ListingImage> ordered = new ArrayList<>(images);
+        ordered.remove(newPrimary);
+        ordered.add(0, newPrimary);
+        applyOrder(ordered);
 
         return getOrderedDtos(listingId);
     }
@@ -176,17 +168,39 @@ public class ListingImageServiceImpl implements ListingImageService {
             byId.put(img.getId(), img);
         }
 
-        for (int i = 0; i < imageIds.size(); i++) {
-            ListingImage img = byId.get(imageIds.get(i));
+        List<ListingImage> ordered = new ArrayList<>();
+        for (Long imageId : imageIds) {
+            ListingImage img = byId.get(imageId);
             if (img == null) {
                 throw new BadRequestException("Poza nu aparține acestui anunț.");
             }
-            img.setPosition((short) i);
+            ordered.add(img);
         }
-        listingImageRepository.saveAll(images);
-        listingImageRepository.flush();
+        applyOrder(ordered);
 
         return getOrderedDtos(listingId);
+    }
+
+    /**
+     * Salvează ordinea pozelor și o face pe prima principală. Există un singur index unic
+     * pentru poza principală, deci vechea principală se șterge și se salvează înaintea celei noi.
+     */
+    private void applyOrder(List<ListingImage> ordered) {
+        for (ListingImage img : ordered) {
+            img.setPrimary(false);
+        }
+        for (int i = 0; i < ordered.size(); i++) {
+            ordered.get(i).setPosition((short) i);
+        }
+        listingImageRepository.saveAll(ordered);
+        listingImageRepository.flush();
+
+        if (!ordered.isEmpty()) {
+            ListingImage first = ordered.get(0);
+            first.setPrimary(true);
+            listingImageRepository.save(first);
+            listingImageRepository.flush();
+        }
     }
 
     private List<ListingImageDto> getOrderedDtos(Long listingId) {

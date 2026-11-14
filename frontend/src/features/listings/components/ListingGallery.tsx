@@ -12,11 +12,9 @@ export interface ListingGalleryProps {
   title: string;
 }
 
-/** Poza principală mare, cu miniaturi dedesubt. Prima afișată e cea marcată principală. */
+/** Poza principală mare, cu miniaturi dedesubt. Prima poză din listă este cea principală. */
 export function ListingGallery({ images, title }: ListingGalleryProps) {
-  const ordered = [...images].sort(
-    (a, b) => Number(b.primary) - Number(a.primary) || a.position - b.position,
-  );
+  const ordered = [...images].sort((a, b) => a.position - b.position);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const selected = ordered.find((image) => image.id === selectedId) ?? ordered[0];
 

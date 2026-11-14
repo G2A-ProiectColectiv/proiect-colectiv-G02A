@@ -13,7 +13,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class ImageProcessor {
-    private static final int MAX_SIDE = 1600;
+    private static final int MAX_SIDE = 2400;
+    /** Calitatea JPEG (0–1); implicitul ImageIO e 0,75, care se vede ca neclaritate pe poze de interior. */
+    private static final float JPEG_QUALITY = 0.92f;
 
     private ImageProcessor() {
     }
@@ -36,7 +38,7 @@ public final class ImageProcessor {
             BufferedImage resized = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
             Graphics2D graphics = resized.createGraphics();
             try {
-                graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
                 graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                 graphics.drawImage(source, 0, 0, targetWidth, targetHeight, null);
             } finally {

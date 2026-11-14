@@ -67,13 +67,13 @@ class LocalDiskImageStorageServiceTest {
     @Test
     void storeResizesLargeImagesToMaxSide() throws IOException {
         MockMultipartFile large = new MockMultipartFile("file", "big.png", "image/png",
-                realImage("png", 2000, 1000));
+                realImage("png", 3000, 1500));
 
         StoredImage stored = storage.store(large, "avatars");
 
         BufferedImage saved = ImageIO.read(root.resolve(stored.relativePath()).toFile());
-        assertEquals(1600, saved.getWidth());
-        assertEquals(800, saved.getHeight());
+        assertEquals(2400, saved.getWidth());
+        assertEquals(1200, saved.getHeight());
     }
 
     @Test

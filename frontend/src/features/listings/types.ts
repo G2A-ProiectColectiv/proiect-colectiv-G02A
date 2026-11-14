@@ -21,7 +21,7 @@ export type ListingStatus = "ACTIVE" | "RENTED" | "UNAVAILABLE" | "DELETED";
 /** Statusurile care se pot alege la `PATCH /api/listings/{id}/status` (și care apar ca tab-uri). */
 export type ListingStatusChoice = Exclude<ListingStatus, "DELETED">;
 
-/** `ListingImageDto`. `url` este calea relativă (`listings/12/a1b2c3.webp`); se afișează cu `imageUrl()`. */
+/** `ListingImageDto`. `url` este calea relativă (`listings/12/a1b2c3.jpg`); se afișează cu `imageUrl()`. */
 export interface ListingImage {
   id: number;
   url: string;
