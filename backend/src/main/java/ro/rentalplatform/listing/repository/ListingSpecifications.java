@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
+import ro.rentalplatform.common.search.TextSearch;
 import ro.rentalplatform.listing.domain.Amenity;
 import ro.rentalplatform.listing.domain.Listing;
 import ro.rentalplatform.listing.domain.ListingStatus;
@@ -17,7 +18,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -115,13 +115,13 @@ public final class ListingSpecifications {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("areaSqm"), value);
     }
 
-    /** Orașul se compară fără să conteze literele mari și mici. */
+    /** Orașul se compară fără să conteze literele mari și mici, diacriticile sau „-” (vezi {@link TextSearch}). */
     public static Specification<Listing> inCity(String city) {
-        if (city == null || city.isBlank()) {
+        String normalized = TextSearch.normalize(city);
+        if (normalized.isEmpty()) {
             return null;
         }
-        String normalized = city.trim().toLowerCase(Locale.ROOT);
-        return (root, query, cb) -> cb.equal(cb.lower(root.get("city")), normalized);
+        return (root, query, cb) -> cb.equal(TextSearch.normalized(cb, root.get("city")), normalized);
     }
 
     /** Anunțul trebuie să aibă toate dotările cerute. */

@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,20 +17,21 @@ import ro.rentalplatform.rentalrequest.dto.RentalRequestDetailsDto;
 import ro.rentalplatform.rentalrequest.dto.RentalRequestSearchCriteria;
 import ro.rentalplatform.rentalrequest.dto.RentalRequestSummaryDto;
 import ro.rentalplatform.rentalrequest.service.RentalRequestSearchService;
+import ro.rentalplatform.security.CurrentUserProvider;
 
 import java.util.Set;
 
 /**
- * Căutarea cererilor de către proprietari (CAUT-02, DET-05):
+ * Căutarea și detaliile cererilor, publice (accesibile și vizitatorilor):
  * <pre>
  * GET /api/requests?…filtre&amp;sort=budgetMax,desc&amp;page=0&amp;size=12  → PageResponse&lt;RentalRequestSummaryDto&gt;
  * GET /api/requests/{id}                                         → RentalRequestDetailsDto
  * </pre>
- * Doar LANDLORD. {@code /api/requests/mine/**} rămâne în {@link MyRentalRequestsController}, doar pentru TENANT.
+ * Telefonul chiriașului apare doar pentru utilizatorii autentificați.
+ * {@code /api/requests/mine/**} rămâne în {@link MyRentalRequestsController}, doar pentru TENANT.
  */
 @RestController
 @RequestMapping("/api/requests")
-@PreAuthorize("hasRole('LANDLORD')")
 public class RentalRequestSearchController {
 
     private static final Set<String> SORT_FIELDS = Set.of("createdAt", "budgetMin", "budgetMax", "desiredFrom");
@@ -41,8 +41,12 @@ public class RentalRequestSearchController {
 
     private final RentalRequestSearchService searchService;
 
-    public RentalRequestSearchController(RentalRequestSearchService searchService) {
+    private final CurrentUserProvider currentUserProvider;
+
+    public RentalRequestSearchController(RentalRequestSearchService searchService,
+                                         CurrentUserProvider currentUserProvider) {
         this.searchService = searchService;
+        this.currentUserProvider = currentUserProvider;
     }
 
     @GetMapping
@@ -63,6 +67,7 @@ public class RentalRequestSearchController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RentalRequestDetailsDto> details(@PathVariable Long id) {
-        return ResponseEntity.ok(searchService.getDetails(id));
+        boolean authenticated = currentUserProvider.getCurrentUserId().isPresent();
+        return ResponseEntity.ok(searchService.getDetails(id, authenticated));
     }
 }

@@ -1,0 +1,25 @@
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.results[aria-busy="true"] {
+  opacity: 0.85;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-7) 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

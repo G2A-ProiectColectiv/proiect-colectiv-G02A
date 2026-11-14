@@ -109,3 +109,7 @@
   color: var(--color-text-secondary);
   font: var(--text-small);
 }
+
+.img {
+  object-fit: cover;
+}

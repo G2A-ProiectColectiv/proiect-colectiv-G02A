@@ -1,0 +1,89 @@
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.title {
+  margin: 0;
+  font: var(--text-h2);
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.budget {
+  margin: 0;
+  font: var(--text-price);
+}
+
+.perMonth {
+  color: var(--color-text-secondary);
+  font: var(--text-small);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.fact {
+  padding: var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+}
+
+.fact dt {
+  color: var(--color-text-secondary);
+  font: var(--text-small);
+}
+
+.fact dd {
+  margin: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.heading {
+  margin: 0 0 var(--space-2);
+  font: var(--text-h3);
+}
+
+.description {
+  margin: 0;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.zone {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.zone .heading {
+  margin: 0;
+}
+
+.zoneHint {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font: var(--text-small);
+}
+
+.map {
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-card);
+}
