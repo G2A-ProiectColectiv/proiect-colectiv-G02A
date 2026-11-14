@@ -1,13 +1,7 @@
-package ro.rentalplatform.location;
+package ro.rentalplatform.location.parser;
 
 import org.junit.jupiter.api.Test;
 import ro.rentalplatform.location.domain.Coordinates;
-import ro.rentalplatform.location.parser.GoogleMapsLinkParser;
-import ro.rentalplatform.location.parser.PathCoordinatesExtractor;
-import ro.rentalplatform.location.parser.PinDataExtractor;
-import ro.rentalplatform.location.parser.QueryParamExtractor;
-import ro.rentalplatform.location.parser.RawCoordinatesExtractor;
-import ro.rentalplatform.location.parser.ViewportExtractor;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GoogleMapsLinkParserTest {
 
+    // same order Spring builds from the @Order annotations
     private final GoogleMapsLinkParser parser = new GoogleMapsLinkParser(List.of(
             new PinDataExtractor(),
             new QueryParamExtractor(),
@@ -47,8 +42,28 @@ class GoogleMapsLinkParserTest {
     }
 
     @Test
+    void fallsBackToViewportWhenNothingMorePreciseExists() {
+        Coordinates result = parser.parse("https://www.google.com/maps/@45.7489,21.2087,14z").orElseThrow();
+
+        assertEquals(45.7489, result.latitude(), 1e-6);
+        assertEquals(21.2087, result.longitude(), 1e-6);
+    }
+
+    @Test
+    void trimsInputBeforeParsing() {
+        assertTrue(parser.parse("   44.4268, 26.1025   ").isPresent());
+    }
+
+    @Test
     void rejectsDirectionsOrPlaceWithoutCoords() {
         assertTrue(parser.parse("https://www.google.com/maps/dir/44.42,26.10/44.45,26.12").isEmpty());
         assertTrue(parser.parse("https://www.google.com/maps/search/?api=1&query=Piata+Unirii").isEmpty());
+        assertTrue(parser.parse("https://www.google.com/maps/place/Palatul+Parlamentului").isEmpty());
+    }
+
+    @Test
+    void rejectsBlankInput() {
+        assertTrue(parser.parse(null).isEmpty());
+        assertTrue(parser.parse("  ").isEmpty());
     }
 }
