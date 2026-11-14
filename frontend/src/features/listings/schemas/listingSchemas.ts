@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { prefillMapsLink } from "@/features/location/utils/prefillMapsLink";
 import { AMENITIES } from "../constants/amenities";
 import { PROPERTY_TYPES } from "../constants/propertyTypes";
 import type { Amenity, Listing, ListingRequest, PropertyType } from "../types";
@@ -144,7 +145,7 @@ export function toFormValues(listing: Listing): ListingFormValues {
     availableFrom: listing.availableFrom,
     address: listing.address,
     city: listing.city,
-    googleMapsUrl: listing.googleMapsUrl ?? "",
+    googleMapsUrl: prefillMapsLink(listing.googleMapsUrl, listing.latitude, listing.longitude),
     amenities: listing.amenities,
   };
 }
