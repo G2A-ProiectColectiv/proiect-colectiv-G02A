@@ -10,7 +10,6 @@ import { validateImageFile } from "@/shared/utils/validateImageFile";
 import {
   useDeleteListingImage,
   useReorderListingImages,
-  useSetPrimaryListingImage,
   useUploadListingImages,
 } from "../hooks/useListingImages";
 import { MAX_LISTING_IMAGES, type ListingImage } from "../types";
@@ -30,7 +29,6 @@ export interface ListingImagesManagerProps {
 export function ListingImagesManager({ listingId, images }: ListingImagesManagerProps) {
   const upload = useUploadListingImages(listingId);
   const remove = useDeleteListingImage(listingId);
-  const setPrimary = useSetPrimaryListingImage(listingId);
   const reorder = useReorderListingImages(listingId);
 
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +36,7 @@ export function ListingImagesManager({ listingId, images }: ListingImagesManager
   const [draggedId, setDraggedId] = useState<number | null>(null);
 
   const sorted = [...images].sort((a, b) => a.position - b.position);
-  const busy = upload.isPending || remove.isPending || setPrimary.isPending || reorder.isPending;
+  const busy = upload.isPending || remove.isPending || reorder.isPending;
   const remaining = MAX_LISTING_IMAGES - images.length;
 
   function addFiles(fileList: FileList | null) {
@@ -84,12 +82,6 @@ export function ListingImagesManager({ listingId, images }: ListingImagesManager
     setError(getApiErrorMessage(failure));
   }
 
-  function makePrimary(image: ListingImage) {
-    if (image.primary || busy) return;
-    setError(null);
-    setPrimary.mutate(image.id, { onError });
-  }
-
   function deleteImage(image: ListingImage) {
     setError(null);
     remove.mutate(image.id, { onError });
@@ -119,7 +111,7 @@ export function ListingImagesManager({ listingId, images }: ListingImagesManager
     <div className={styles.manager}>
       <div className={styles.header}>
         <p className={styles.hint}>
-          Până la {MAX_LISTING_IMAGES} poze, jpg, png sau webp, maximum 5 MB fiecare. Prima poză
+          Până la {MAX_LISTING_IMAGES} poze, jpg, png sau jpeg, maximum 5 MB fiecare. Prima poză
           este cea principală.
         </p>
         <span className={styles.counter} aria-live="polite">
@@ -143,7 +135,7 @@ export function ListingImagesManager({ listingId, images }: ListingImagesManager
           <input
             type="file"
             className={styles.fileInput}
-            accept="image/jpeg,image/png,image/webp"
+            accept="image/jpeg,image/png,image/jpg"
             multiple
             disabled={busy}
             onChange={onInputChange}
@@ -169,8 +161,8 @@ export function ListingImagesManager({ listingId, images }: ListingImagesManager
       {sorted.length > 0 && (
         <>
           <p className={styles.hint}>
-            Trage o poză ca să schimbi ordinea sau folosește săgețile. Apasă pe o poză ca să o faci
-            principală.
+            Trage o poză ca să schimbi ordinea sau folosește săgețile. Poza de pe primul loc este
+            cea principală.
           </p>
           <ul className={styles.grid}>
             {sorted.map((image, index) => (
@@ -192,17 +184,11 @@ export function ListingImagesManager({ listingId, images }: ListingImagesManager
                   setDraggedId(null);
                 }}
               >
-                <button
-                  type="button"
-                  className={styles.photo}
-                  aria-label={
-                    image.primary
-                      ? `Poza ${index + 1}, principală`
-                      : `Poza ${index + 1}. Apasă ca să o faci principală`
-                  }
-                  aria-pressed={image.primary}
-                  disabled={busy}
-                  onClick={() => makePrimary(image)}
+                {/* Prima poză din listă este cea principală; nu se alege separat. */}
+                <div
+                  className={`${styles.photo} ${index === 0 ? styles.primary : ""}`}
+                  role="img"
+                  aria-label={index === 0 ? `Poza ${index + 1}, principală` : `Poza ${index + 1}`}
                 >
                   <Image
                     src={photoSrc(image.url)}
@@ -213,8 +199,8 @@ export function ListingImagesManager({ listingId, images }: ListingImagesManager
                     draggable={false}
                     className={styles.img}
                   />
-                  {image.primary && <span className={styles.badge}>Principală</span>}
-                </button>
+                  {index === 0 && <span className={styles.badge}>Principală</span>}
+                </div>
 
                 <div className={styles.tools}>
                   <button
